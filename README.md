@@ -63,11 +63,31 @@ $('#domId').cascader({
 
 级联菜单的数据，含有子项的需要有chidlren字段, 默认值为[]
 
+## value
+
+配置初始化时的默认值，还可以通过设置inpt的value的方式设置默认值
+
 # API
 
 ## clearValue
 
 清空当前选择的内容
+
+```javascript
+// 清空设置的值
+$('#domId').cascader('clearValue');
+```
+
+## val
+
+获取或设置vlaue，不传递参数时为获取value，传递参数时为设置value
+
+```javascript
+// 获取设置的值
+$('#domId').cascader('val');
+// 设置提交值
+$('#domId').cascader('val', '3-3');
+```
 
 # EVENT
 

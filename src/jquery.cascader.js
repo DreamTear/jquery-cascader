@@ -2,7 +2,7 @@
  * jquery.cascader.js 级联菜单
  * @authors wangy (wangy@huilan.com)
  * @date    2019-07-19 17:03:00
- * @version $Id$
+ * @version 1.1.0
  */
 
 +function($) {
@@ -172,12 +172,14 @@
 	};
 	Cascader.prototype.initValue = function() {
 		var me = this;
+		var option = me.option;
 		var val = me.$el.val().trim();
-		// if(!val) {
-		// 	return
-		// }
+		
+		if(option.value) {
+			val = option.value
+		}
 
-		var path = getPath(me.data, val, me.option.valueField);
+		var path = getPath(me.data, val, option.valueField);
 		me.oldSubmitValue = val;
 		me.checkeditems = path;
 		me.initMenu(me.checkeditems);
@@ -202,6 +204,17 @@
 			
 		})
 	};
+	Cascader.prototype.val = function() {
+		var me = this;
+		if(arguments.length === 0) {
+			rturn me.oldSubmitValue
+		} else {
+			var val = arguments[0];
+			var path = getPath(me.data, val, me.option.valueField);
+			me.checkeditems = path;
+			me.setValue();
+		}
+	}
 
 	function getPath(data, val, key) {
 		var obj = [];
@@ -221,19 +234,31 @@
 	}
 
 
-$.fn.cascader = function(opt) {
+$.fn.cascader = function() {
+	var args = Array.prototype.slice.call(arguments);
+	var opt;
 	var res;
 	this.each(function() {
 		var $this = $(this);
 		var cascader = $this.data('cascader');
 		if(cascader) {
-			res = cascader[opt]();
-			if(res !== undefined) {
-				return false
+			if(args.length > 0) {
+				opt = args[0];
+			}
+			if($.type(opt) === 'string') {
+				res = cascader[opt](args.slice(1));
+				if(res !== undefined) {
+					return false
+				}
 			}
 		} else {
-			var option = $.extend({el: this}, opt);
-			$this.data('cascader', new Cascader(option));
+			if(args.length > 0) {
+				opt = args[0]
+			}
+			if ($.isPlainObject(opt)) {
+				var option = $.extend({el: this}, opt);
+				$this.data('cascader', new Cascader(option));
+			}
 		}
 		
 	});
