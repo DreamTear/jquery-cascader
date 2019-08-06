@@ -73,12 +73,13 @@
 	Cascader.prototype.initEvent = function() {
 		var me = this;
 		var timer;
+		var newCheckeditems = [];
 		me.$dropdownEl.on('click', 'li', function(event) {
 			var $this = $(this);
 			var data = $this.data('cascader-data');
 			var $parent = $this.parent();
 			var parentIndex = $parent.index();
-			var checkeditems = me.checkeditems;
+			// var checkeditems = me.checkeditems;
 
 			if (timer) {
 				clearTimeout(timer);
@@ -95,16 +96,16 @@
 			$this.addClass('cascader-menu-item-active').siblings().removeClass('cascader-menu-item-active');
 			$parent.nextAll().remove();
 
-			if(checkeditems.length > parentIndex) {
-				checkeditems = checkeditems.slice(0, parentIndex);
+			if(newCheckeditems.length > parentIndex) {
+				newCheckeditems = newCheckeditems.slice(0, parentIndex);
 			}
-			checkeditems.push(data);
+			newCheckeditems.push(data);
 
 			if (data.children) {
 				var $nextMenu = me.creatCascaderMenu(data.children);
 				$parent.after($nextMenu);
 			}else {
-				me.checkeditems = checkeditems;
+				me.checkeditems = newCheckeditems;
 				me.setValue();
 				me.hideDropdown();
 			}
