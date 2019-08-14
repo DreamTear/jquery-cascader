@@ -44,15 +44,23 @@
 
 	}
 	Cascader.prototype.creatDropdownEl = function() {
+		// var position = this.$showInput.offset();
+		// var elH = this.$showInput.outerHeight(true); // 计算input带边框的高度
+		this.$dropdownEl = $('<div class="cascader-dropdown-container"></div>');
+		// this.$dropdownEl.css({
+		// 	left: position.left,
+		// 	top: position.top + elH
+		// });
+		$('body').append(this.$dropdownEl);
+		this.initEvent();
+	};
+	Cascader.prototype.computeDropdownElPosition = function() {
 		var position = this.$showInput.offset();
 		var elH = this.$showInput.outerHeight(true); // 计算input带边框的高度
-		this.$dropdownEl = $('<div class="cascader-dropdown-container"></div>');
 		this.$dropdownEl.css({
 			left: position.left,
 			top: position.top + elH
 		});
-		$('body').append(this.$dropdownEl);
-		this.initEvent();
 	};
 	Cascader.prototype.creatCascaderMenu = function(data, selectItem) {
 		var $menu = $('<ul class="cascader-menu"></ul>')
@@ -141,6 +149,7 @@
 
 	};
 	Cascader.prototype.showDropdown = function() {
+		this.computeDropdownElPosition();
 		this.$dropdownEl.show();
 	};
 	Cascader.prototype.hideDropdown = function() {
