@@ -217,7 +217,7 @@
 	Cascader.prototype.val = function() {
 		var me = this;
 		if(arguments.length === 0) {
-			rturn me.oldSubmitValue
+			return me.oldSubmitValue
 		} else {
 			var val = arguments[0];
 			var path = getPath(me.data, val, me.option.valueField);
